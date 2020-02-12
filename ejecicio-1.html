@@ -1,0 +1,77 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Curso de Vue 2">
+    <meta name="author" content="https://styde.net">
+    <link rel="icon" href="favicon.ico">
+    <title>Curso de Vue 2 - Styde.net</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+    <div id="app" class="container">
+        
+        {{ $data }}
+
+        <h4>¿Has trabajado con Vue.js?</h4>
+        <div class="radio">
+            <label class="radio-inline">
+                <input type="radio" v-model="vue.exp" v-bind:value="true"> Sí
+            </label>
+            <label class="radio-inline">
+                <input type="radio" v-model="vue.exp" :value="false"> No
+            </label>
+        </div>
+
+        <template v-if="vue.exp">
+
+            <div class="form-group">
+                <label for="vue_years">¿Cuantos años de experiencia tienes con Vue?</label>
+                <input type="number" v-model="vue.years" class="form-control">
+            </div>
+
+            <div v-if="vue.years > 2" class="form-group">
+                <label for="vue_years">¿Qué te motivó a aprender Vue?</label>
+                <textarea v-model="vue.description" class="form-control" rows="4"></textarea>
+            </div>
+
+            <div v-else class="form-group">
+                <label for="vue_years">Cuéntanos tu experiencia con Vue.js</label>
+                <textarea v-model="vue.description" class="form-control" rows="4"></textarea>
+            </div>
+
+            <div v-if="vue.description == ''" class="alert alert-danger" role="alert">
+                Por favor, complete el campo anterior.
+            </div>
+            
+            <div v-else-if="vue.description.length > 1000" class="alert alert-danger" role="alert">
+                El texto no puede contener más de 1000 caracteres, este contiene {{ vue.description.length }}.
+            </div>
+
+        </template>
+        
+        <footer class="footer">
+
+            © 2017 Styde.net.
+
+        </footer>
+    </div>
+    <script src="https://unpkg.com/vue@2.1.8/dist/vue.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                vue: {
+                    exp: false,
+                    years: 0,
+                    description: '',
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
