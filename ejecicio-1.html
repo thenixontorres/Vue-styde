@@ -42,12 +42,8 @@
                 <textarea v-model="vue.description" class="form-control" rows="4"></textarea>
             </div>
 
-            <div v-if="vue.description == ''" class="alert alert-danger" role="alert">
-                Por favor, complete el campo anterior.
-            </div>
-            
-            <div v-else-if="vue.description.length > 1000" class="alert alert-danger" role="alert">
-                El texto no puede contener más de 1000 caracteres, este contiene {{ vue.description.length }}.
+            <div v-if="descriptionError != ''" class="alert alert-danger" role="alert">
+                {{ descriptionError }}
             </div>
 
         </template>
@@ -68,6 +64,26 @@
                     exp: false,
                     years: 0,
                     description: '',
+                }
+            },
+            computed: {
+                descriptionError: function() {
+
+                    var val = this.vue.description.trim();
+
+                    if(val == '') {
+                        return 'El campo es obligatorio';
+                    }
+
+                    if(val.length > 1000) {
+                        return 'La descripcion es muy larga';
+                    }
+
+                    if(val.length < 5) {
+                        return 'La descripcion es muy corta';
+                    } 
+
+                    return '';
                 }
             }
         });
