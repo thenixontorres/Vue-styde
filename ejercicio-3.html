@@ -1,0 +1,100 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Curso de Vue 2">
+    <meta name="author" content="https://styde.net">
+    <link rel="icon" href="favicon.ico">
+    <title>Curso de Vue 2 - Styde.net</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+    <div id="app" class="container">
+        <!-- todas las tareas -->
+        <h4>Todas</h4>
+
+        <ul>
+            <li v-for="(task, index) in tasks">
+                <a href="#" @click="updateTask(index)">
+                    <del v-if="!task.pending">{{task.title}}</del>
+                    <p v-else>{{task.title}}</p>
+                </a>
+            </li>
+        </ul>
+
+        <!--<form @submit.prevent="createTask">-->
+        <form >
+            
+            <input type="text" v-model="new_task" class="form-control" name="task">
+
+            <input type="submit" value="Agregar tarea pendiente" class="btn btn-success" @click="createTask(true, $event)">
+            
+            <input type="submit" value="Agregar tarea completada" class="btn btn-info" @click="createTask(false, $event)">
+
+        </form>
+
+
+        <footer class="footer">
+
+            © 2017 Styde.net.
+
+        </footer>
+    </div>
+    <script src="https://unpkg.com/vue@2.1.8/dist/vue.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                new_task: '',
+                tasks: [
+                    {
+                        title: 'Texto 1',
+                        pending: false,
+                    },
+                    {
+                        title: 'Texto 2',
+                        pending: false,
+                    },
+                    {
+                        title: 'Texto 2',
+                        pending: true,
+                    }
+                ],
+                user: {
+                    name: 'Username',
+                    description: 'Lorem',
+                    other_key: 'value'
+                }
+            },
+            computed: {
+                pendingTasks: function() {
+                    return this.tasks.filter(function(item) {
+                        return item.pending;
+                    })
+                }
+            },
+            methods: {
+                createTask: function(pending, event) {
+                    
+                    event.preventDefault();     
+
+                    this.tasks.push({
+                        title: this.new_task,
+                        pending: pending
+                    });
+
+                    this.new_task = '';
+                },
+                updateTask: function(index) {
+                    var task = this.tasks[index];
+                    task.pending = !task.pending;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
